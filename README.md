@@ -65,7 +65,8 @@ La Lambda filtre cette fois sur les event avec un changement de status *To Proce
 ### 5ème partie : S3 → Timescale
 
 Une fois les données au format **Parquet compressé** stockées dans S3, on utilise une feature récente de Timescale (via TigerData) : *LiveSync for S3*.  
-Cette fonctionnalité permet de synchroniser automatiquement les données S3 avec la base de données TimescaleDB.
+Cette fonctionnalité permet de synchroniser automatiquement les données S3 avec la base de données TimescaleDB. Voir plus de détail sur comment fonctionne cette feature : ([ici](https://docs.tigerdata.com/migrate/latest/livesync-for-s3/))
+ 
 
 ---
 
