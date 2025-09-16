@@ -15,7 +15,7 @@ La solution doit être la plus simple possible, loosely coupled et fault toleran
 
 L'architecture proposée est à 90 % déployée avec des services AWS, à l'exception de Datadog pour le monitoring et de Timescale pour le stockage de données de type timeseries.  
 
-![Architecture](../images/Architecture.png)
+![Architecture](images/Architecture.png)
 
 ## 4. Description du workflow
 
@@ -89,7 +89,7 @@ Cette partie offre une solution intuitive pour effectuer des requêtes ad hoc su
 
 ## 6. Alterntive : Timestream :
 
-![Architecture](../images/Alternative_Architecture.png)
+![Architecture](images/Alternative_Architecture.png)
 
 
 Une autre alternative à TimescaleDB est l’utilisation d’AWS Timestream. L’avantage de cette solution est qu’elle reste 100 % native AWS, et que Kinesis Firehose peut y écrire directement (voir figure ci-dessus). En revanche, on perd la possibilité de réaliser l’enrichissement, la validation et l’agrégation des données avant leur stockage, ce qui est essentiel pour des données IoT souvent bruitées. De plus, Timestream est ([150x plus cher et moins performant](https://www.tigerdata.com/blog/timescaledb-vs-amazon-timestream-6000x-higher-inserts-175x-faster-queries-220x-cheaper#about-timescaledb-and-amazon-timestream)) par rapport à Timescale.
