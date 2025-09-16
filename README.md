@@ -58,7 +58,7 @@ Ce monitoring permet de voir, par exemple, **quelles données de quels capteurs 
 ### 4ème partie : Monitoring 2 (DynamoDB → DynamoDB Stream → Lambda → SNS)
 
 DynamoDB Stream détecte tout changement dans la table DynamoDB.  
-La Lambda filtre cette fois sur les event avec un changement de status *To Process* → *Failed*
+La Lambda filtre cette fois sur les event avec un changement de status *To Process* → *Failed*, si un changement de ce type est détécté, la Lambda envoi un mail d'alerte grâce à topic SNS.
 
 ---
 
