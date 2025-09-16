@@ -27,7 +27,7 @@ Kinesis Firehose joue le rôle de buffer (selon des critères de taille ou de te
 
 ---
 
-### 2ème partie : S3 → SQS → Lambda → DynamoDB
+### 2ème partie : S3 → SQS → Lambda → DynamoDB → Step Function (Glue Job → Lambda)
 
 Le dépôt d’un fichier sur S3 génère un event, qui est envoyé à SQS. Ensuite, une Lambda consomme le message et écrit les métadonnées concernant le fichier à ingérer :  
 - nom du fichier  
