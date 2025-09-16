@@ -1,4 +1,7 @@
-# Test Technique - Cloud et Infra
+# Test Technique - 
+
+
+#### Partie 1 :Cloud et Infra
 
 ## 1. Objectif
 
@@ -12,7 +15,7 @@ La solution doit être la plus simple possible, loosely coupled et fault toleran
 
 L'architecture proposée est à 90 % déployée avec des services AWS, à l'exception de Datadog pour le monitoring et de Timescale pour le stockage de données de type timeseries.  
 
-![Architecture](Architecture.png)
+![Architecture](../Architecture.png)
 
 ## 4. Description du workflow
 
@@ -42,13 +45,20 @@ Lorsqu’un certain seuil (à définir) est atteint (par exemple 5 fichiers en a
 
 ---
 
-### 3ème partie : Monitoring (DynamoDB → DynamoDB Stream → Lambda → Datadog)
+### 3ème partie : Monitoring 1 (DynamoDB → DynamoDB Stream → Lambda → Datadog)
 
 DynamoDB Stream détecte tout changement dans la table DynamoDB.  
 La Lambda filtre les événements, en particulier le changement de statut de *To Process* → *Done*. Cela signifie que le workflow est terminé pour le fichier concerné.  
 
 Des métriques sont alors calculées à partir des données DynamoDB et envoyées à Datadog.  
 Ce monitoring permet de voir, par exemple, **quelles données de quels capteurs et pour quelles périodes** ont été ingérées, et éventuellement de détecter des données manquantes.
+
+---
+
+### 4ème partie : Monitoring 2 (DynamoDB → DynamoDB Stream → Lambda → SNS)
+
+DynamoDB Stream détecte tout changement dans la table DynamoDB.  
+La Lambda filtre cette fois sur les event avec un changement de status *To Process* → *Failed*
 
 ---
 
@@ -79,7 +89,7 @@ Cette partie offre une solution intuitive pour effectuer des requêtes ad hoc su
 
 ## 6. Alterntive : Timestream :
 
-![Architecture](Alternative_Architecture.png)
+![Architecture](../Alternative_Architecture.png)
 
 
 Une autre alternative à TimescaleDB est l’utilisation d’AWS Timestream. L’avantage de cette solution est qu’elle reste 100 % native AWS, et que Kinesis Firehose peut y écrire directement (voir figure ci-dessus). En revanche, on perd la possibilité de réaliser l’enrichissement, la validation et l’agrégation des données avant leur stockage, ce qui est essentiel pour des données IoT souvent bruitées. De plus, Timestream est ([150x plus cher et moins performant](https://www.tigerdata.com/blog/timescaledb-vs-amazon-timestream-6000x-higher-inserts-175x-faster-queries-220x-cheaper#about-timescaledb-and-amazon-timestream)) par rapport à Timescale.
@@ -96,3 +106,28 @@ Synchronisation TimescaleDB : 1-5 minutes
 
 ##  7. Conclusion :
 Cette architecture répond aux exigences du test technique en proposant une solution simple, découplée et fault tolerant pour l'ingestion de données timeseries.
+
+#### Partie 2 :
+
+# Description du script
+
+Ce script **charge des données de passagers par capteur depuis un fichier CSV**, calcule des statistiques de base et les sauvegarde dans des fichiers CSV.
+
+## Fonctionnalités principales
+
+1. **Lecture des données**  
+   - Charge le fichier CSV dans un **DataFrame Polars**.  
+   - Colonnes attendues : `timestamp`, `sensor_id`, `passengers`.
+
+2. **Calcul des métriques**  
+   - **Total des passagers par capteur** : somme des passagers enregistrés pour chaque capteur.  
+   - **Moyenne des passagers par capteur** : moyenne des passagers observés pour chaque capteur.
+
+3. **Sauvegarde des résultats**  
+   - Écrit le total et la moyenne dans deux fichiers CSV séparés (`total_passagers.csv` et `moyenne_passagers.csv`).
+
+4. **Affichage**  
+   - Affiche le total et la moyenne par capteur pour vérification rapide.
+
+On pourra facilement ajouter des calculs de statistiques en rajoutant des fonctions et les inclure dans la fonction main.
+Le chemin du fichier CSV à traiter doit être indiqué dans le bloc `if __name__ == "__main__":` avant d'appeler la fonction `main()`.  
