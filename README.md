@@ -1,7 +1,7 @@
-# Test Technique - 
+# Test Technique
 
 
-#### Partie 1 :Cloud et Infra
+# Partie 1 :Cloud et Infra
 
 ## 1. Objectif
 
@@ -62,14 +62,14 @@ La Lambda filtre cette fois sur les event avec un changement de status *To Proce
 
 ---
 
-### 4ème partie : S3 → Timescale
+### 5ème partie : S3 → Timescale
 
 Une fois les données au format **Parquet compressé** stockées dans S3, on utilise une feature récente de Timescale (via TigerData) : *LiveSync for S3*.  
 Cette fonctionnalité permet de synchroniser automatiquement les données S3 avec la base de données TimescaleDB.
 
 ---
 
-### 5ème partie : S3 → Athena
+### 6ème partie : S3 → Athena
 
 Cette partie offre une solution intuitive pour effectuer des requêtes ad hoc sur les données.
 
@@ -107,7 +107,7 @@ Synchronisation TimescaleDB : 1-5 minutes
 ##  7. Conclusion :
 Cette architecture répond aux exigences du test technique en proposant une solution simple, découplée et fault tolerant pour l'ingestion de données timeseries.
 
-#### Partie 2 :
+# Partie 2 :
 
 # Description du script
 
